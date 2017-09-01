@@ -1,58 +1,64 @@
 # Selenium IDE JS Converter
 Javascript Converter for html file that is generated from Selenium IDE.
 
-#Installation
+# Installation
 ```
-npm i selenium-ide-js-converter
+npm i @kvnjng/selenium-ide-js-converter
 ```
 
-#Dependencies
+#Dependencies 
 I use these dependencies for the project. but you can change it to match your preference
 ```
 selenium-webdriver
 mocha
-assert
+geckodriver.exe
 ```
 Download latest version of geckodriver (Mozilla Firefox Webdriver). Put in main directory.
 
-####Usage:
 ```
-// Converter.js
-
-    const seleniumConverter = require('selenium-ide-js-converter');
-
-// -----Template for converted JavaScript file.---------
-// Just put '{-actions-}' on this template
-// and converter will inject JavaScript Selenium commands into it.
-
-    let template = `
-    const By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until;
-
-    require('chai').should();
-
-    module.exports = (driver)=>{
-    return  ()=>{
-            {-actions-}
-        }
-    }
-    `;
-
-// seleniumConverter takes 4 arguments ------------------------
-// 1) the path to the folder where you put html files generated
-//   by Selenium IDE
-// 2) the path where you want to get converted JavaScript files
-// 3) JavaScript Template
-// 4) Base url for testing
-
-// In this example, I've created two folders called 'html'
-// (put Selenium html files in this folder) and 'js' in the
-// same directory of this file.
-
-    seleniumConverter('html','js',template,'https://www.google.co.th');
+https://github.com/mozilla/geckodriver/releases
 ```
 
-####Supported command:
+#### Usage:
+```
+// convert.js
+
+const seleniumConverter = require('@kvnjng/selenium-ide-js-converter');
+
+let template = `
+const assert = require('assert');
+const path = require('path');
+const test = require('selenium-webdriver/testing');
+const webdriver = require('selenium-webdriver'),
+By = webdriver.By,
+until = webdriver.until;
+
+describe(path.basename(__filename), function() {
+  test.it('should use the gaussian mode', function(done) {
+    this.timeout(0);
+    var driver = new webdriver.Builder()
+    .forBrowser('firefox')
+    .build();
+
+    // -----example get path of example test file----- 
+    // --enter name of input files folder in main directory (ie. 'examples')  
+    // let examplesDirectory = __dirname.split(path.sep).concat(['examples']);
+    // --enter name of file (ie. 'study2.txt')
+    // driver.findElement(By.id("study_1")).sendKeys(examplesDirectory.concat(['study2.txt']).join(path.sep)).then(function() {
+    //   driver.sleep(1000);
+    // });
+
+    {-actions-}
+
+    driver.close();
+  });
+})
+`;
+
+seleniumConverter('input_html_tests','output_js_tests', template, 'https://wikipedia.com');
+```
+
+#### Supported command:
 ```
 open
 click
@@ -62,11 +68,10 @@ waitForTitle
 type
 typeAndWait
 select
-
-// need -> require('chai').should();
 assetText
 assertTitle
+pause
 ```
 
-####Modification:
+#### Modification:
 To add more command or change some variables name in converted JavaScript files, you can checkout 'mappingOrder' variable in 'interpretOrder' function.

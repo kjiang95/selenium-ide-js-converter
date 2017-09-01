@@ -118,7 +118,8 @@ function interpretOrder(order){
 			done();
 		});`,
 
-		'pause':`driver.sleep(${pauseTime});`
+		'pause':`driver.sleep('{-selector-}');`
+		
 	}
 
 
@@ -162,7 +163,12 @@ function interpretSelector(selector){
 		startPos=5;
 	}
 
+	if(selector.search(/^\d+$/)!==-1){			
+		template='{-body-}';
+		startPos=0;
+	}
 
+	
 	if(template){
 		return template.replace('{-body-}',selector.slice(startPos));
 	}
@@ -216,7 +222,8 @@ function readFiles(dirnameHtml,dirnameJs,onFileContent) {
     if (err) throw err;
     filenames.forEach(filename=>{
       fs.readFile(dirnameHtml + filename, 'utf-8',(err, testHtml)=>{
-        if (err) throw err;
+		if (err) throw err;
+		filename = filename.replace(/\.html/g, "");		
         onFileContent(dirnameJs,filename,testHtml);
       });
     });
