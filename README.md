@@ -1,12 +1,12 @@
 # Selenium IDE JS Converter
 Javascript Converter for html file that is generated from Selenium IDE.
 
-#Installation
+# Installation
 ```
 npm i selenium-ide-js-converter
 ```
 
-#Dependencies
+#Dependencies 
 I use these dependencies for the project. but you can change it to match your preference
 ```
 selenium-webdriver
@@ -15,7 +15,7 @@ assert
 ```
 Download latest version of geckodriver (Mozilla Firefox Webdriver). Put in main directory.
 
-####Usage:
+#### Usage:
 ```
 // Converter.js
 
@@ -52,7 +52,7 @@ Download latest version of geckodriver (Mozilla Firefox Webdriver). Put in main 
     seleniumConverter('html','js',template,'https://www.google.co.th');
 ```
 
-####Supported command:
+#### Supported command:
 ```
 open
 click
@@ -68,5 +68,5 @@ assetText
 assertTitle
 ```
 
-####Modification:
+#### Modification:
 To add more command or change some variables name in converted JavaScript files, you can checkout 'mappingOrder' variable in 'interpretOrder' function.

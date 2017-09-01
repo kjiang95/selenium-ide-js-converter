@@ -4,10 +4,10 @@
   "description": "Simple JavaScript converter for selenium ide html file",
   "main": "engine.js",
   "directories": {
-    "test": "tests"
+    "test": "output_js_tests"
   },
   "scripts": {
-    "test": "mocha tests/"
+    "test": "mocha output_js_tests/"
   },
   "repository": {
     "type": "git",

@@ -49,4 +49,4 @@ describe(path.basename(__filename), function() {
 })
 `;
 
-seleniumConverter('html_tests','tests', template, 'https://analysistools-sandbox.nci.nih.gov');
+seleniumConverter('input_html_tests','output_js_tests', template, 'https://analysistools-sandbox.nci.nih.gov');
