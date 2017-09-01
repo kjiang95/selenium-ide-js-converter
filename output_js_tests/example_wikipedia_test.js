@@ -1,9 +1,4 @@
-// convert.js
 
-const seleniumConverter = require('./engine.js');
-// const seleniumConverter = require('@kvnjng/selenium-ide-js-converter');
-
-let template = `
 const assert = require('assert');
 const path = require('path');
 const test = require('selenium-webdriver/testing');
@@ -27,11 +22,18 @@ describe(path.basename(__filename), function() {
     //   driver.sleep(1000);
     // });
 
-    {-actions-}
+    driver.get("http://wikipedia.com"+"/");
+		driver.sleep('5000');
+		driver.findElement(By.id("searchInput")).sendKeys('selenium');
+		driver.sleep('3000');
+		driver.findElement(By.css("button.pure-button.pure-button-primary-progressive")).click();
+		driver.sleep('4000');
+		driver.getTitle().then(title=> {
+			assert(title == 'Selenium - Wikipedia');
+			done();
+		});
+		
 
     driver.close();
   });
 })
-`;
-// -----change last parameter to your desired base URL----- 
-seleniumConverter('input_html_tests','output_js_tests', template, 'http://wikipedia.com');

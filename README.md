@@ -6,8 +6,7 @@ Javascript Converter for html file that is generated from Selenium IDE.
 npm i @kvnjng/selenium-ide-js-converter
 ```
 
-#Dependencies 
-I use these dependencies for the project. but you can change it to match your preference
+# Dependencies 
 ```
 selenium-webdriver
 mocha
@@ -34,7 +33,8 @@ By = webdriver.By,
 until = webdriver.until;
 
 describe(path.basename(__filename), function() {
-  test.it('should use the gaussian mode', function(done) {
+  // --enter test case name (ie. 'example test case')
+  test.it('example test case', function(done) {
     this.timeout(0);
     var driver = new webdriver.Builder()
     .forBrowser('firefox')
@@ -55,10 +55,10 @@ describe(path.basename(__filename), function() {
 })
 `;
 
-seleniumConverter('input_html_tests','output_js_tests', template, 'https://wikipedia.com');
+seleniumConverter('input_html_tests','output_js_tests', template, 'http://wikipedia.com');
 ```
 
-#### Supported command:
+#### Supported commands:
 ```
 open
 click
