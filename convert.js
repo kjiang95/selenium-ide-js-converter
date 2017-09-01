@@ -1,24 +1,7 @@
-// Converter.js
+// convert.js
 
 const seleniumConverter = require('./engine.js');
-
-// -----Template for converted JavaScript file.---------
-// Just put '{-actions-}' on this template
-// and converter will inject JavaScript Selenium commands into it.
-
-// let template = `
-// var should = require('chai').should();
-//
-// var webdriver = require('selenium-webdriver'),
-//     By = webdriver.By,
-//     until = webdriver.until;
-//
-// var driver = new webdriver.Builder()
-//     .forBrowser('firefox')
-//     .build();
-//
-// {-actions-}
-// `;
+// const seleniumConverter = require('@kvnjng/selenium-ide-js-converter');
 
 let template = `
 const assert = require('assert');
@@ -35,9 +18,10 @@ describe(path.basename(__filename), function() {
     .forBrowser('firefox')
     .build();
 
-    let examplesDirectory = __dirname.split(path.sep).concat(['examples']);
-
-    // -----example get path of example test file-----
+    // -----example get path of example test file----- 
+    // --enter name of input files folder in main directory (ie. 'examples')  
+    // let examplesDirectory = __dirname.split(path.sep).concat(['examples']);
+    // --enter name of file (ie. 'study2.txt')
     // driver.findElement(By.id("study_1")).sendKeys(examplesDirectory.concat(['study2.txt']).join(path.sep)).then(function() {
     //   driver.sleep(1000);
     // });

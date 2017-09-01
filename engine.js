@@ -168,7 +168,7 @@ function interpretSelector(selector){
 		startPos=0;
 	}
 
-
+	
 	if(template){
 		return template.replace('{-body-}',selector.slice(startPos));
 	}
