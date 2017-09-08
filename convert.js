@@ -1,7 +1,6 @@
 // convert.js
 
 const seleniumConverter = require('./engine.js');
-// const seleniumConverter = require('@kvnjng/selenium-ide-js-converter');
 
 let template = `
 const assert = require('assert');
