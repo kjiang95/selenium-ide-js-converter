@@ -1,10 +1,5 @@
 # Selenium IDE JS Converter
-Javascript Converter for html file that is generated from Selenium IDE.
-
-# Installation
-```
-npm i @kvnjng/selenium-ide-js-converter
-```
+Tool to convert html test files generated from Selenium IDE into runnable node.js test files (via Firefox webdriver).
 
 # Dependencies 
 ```
@@ -18,7 +13,19 @@ Download latest version of geckodriver (Mozilla Firefox Webdriver). Put in main 
 https://github.com/mozilla/geckodriver/releases
 ```
 
-#### Usage:
+# Installation
+```
+1) Create a file named 'convert.js'
+2) Copy, paste, and edit convert.js template (below)
+3) Download geckodriver and place in main directory
+4) Create two folders: 'input_html_tests' , 'output_js_tests' , and place in main directory
+5) Place your Selenium-generated html test case in the 'input_html_tests' folder
+6) Open console in folder and type 'npm i @kvnjng/selenium-ide-js-converter mocha'
+7) Type 'node convert.js' to convert all test cases placed in 'input_html_tests' folder. Converted tests will be placed in 'output_js_tests'
+8) Type 'npm test' to run all javascript test cases in the 'output_js_tests' folder
+```
+
+#### convert.js template:
 ```
 // convert.js
 
@@ -55,6 +62,7 @@ describe(path.basename(__filename), function() {
 })
 `;
 
+// --change last parameter to your base url (ie. 'http://wikipedia.com')
 seleniumConverter('input_html_tests','output_js_tests', template, 'http://wikipedia.com');
 ```
 
@@ -74,4 +82,4 @@ pause
 ```
 
 #### Modification:
-To add more command or change some variables name in converted JavaScript files, you can checkout 'mappingOrder' variable in 'interpretOrder' function.
+To add more commands, clone repo 'https://github.com/kvnjng/selenium-ide-js-converter.git' and edit the 'mappingOrder' variable in 'interpretOrder' function (engine.js).
