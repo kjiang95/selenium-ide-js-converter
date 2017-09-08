@@ -210,10 +210,14 @@ function insertActions(testHtml){
 }
 
 function writeFile(dirnameJs,filename,testHtml){
-	fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml),err=>{
-		if (err) throw err;
-		console.log('Created '+filename+'.js already');
-	})
+	fs.access(dirnameJs+filename+'.js', fs.constants.R_OK | fs.constants.W_OK, (err2) => {
+		fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml),err=>{
+			if (err) throw err;
+			if (err) throw err2;			
+			console.log(err2 ? 'New file generated:' : 'File already exists! Existing file will be overwritten:');			
+			console.log(' '+dirnameJs+filename+'.js');
+		})
+	});
 }
 
 
