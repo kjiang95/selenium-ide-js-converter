@@ -19,8 +19,9 @@ describe(path.basename(__filename), function() {
     .build();
 
     // -----example get path of example test file----- 
-    // --enter name of input files folder in main directory (ie. 'examples')  
-    // let examplesDirectory = __dirname.split(path.sep).concat(['examples']);
+    // --enter name of example input files folder in main directory (ie. 'examples')  
+    let examplesDirectory = __dirname.split(path.sep).concat(['examples']);
+
     // --enter name of file (ie. 'study2.txt')
     // driver.findElement(By.id("study_1")).sendKeys(examplesDirectory.concat(['study2.txt']).join(path.sep)).then(function() {
     //   driver.sleep(1000);
