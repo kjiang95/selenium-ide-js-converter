@@ -28,7 +28,7 @@ waitForTitle
 type
 typeAndWait
 select
-assetText
+assertText
 assertTitle
 pause
 ```

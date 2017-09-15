@@ -2,6 +2,7 @@ module.exports = (htmlPath,jsPath,templateVar,baseUrlVar)=>{
 
 // Load Dependencies
 const fs = require('fs');
+const path = require('path');
 
 // Load Configs, Template
 const config=require('./config'),
@@ -176,9 +177,30 @@ function interpretSelector(selector){
 	return selector;
 }
 
+// function interpretMis(mis){
+// 	if(mis.indexOf('label=')!==-1){
+// 		return mis.slice(6);
+// 	}
+
+// 	return mis;
+// }
+
 function interpretMis(mis){
+	let examplesDirectory = __dirname.split(path.sep).concat(['examples']);	
 	if(mis.indexOf('label=')!==-1){
-		return mis.slice(6);
+		let label = mis.slice(6);
+		if(path.basename(label) == label.substring((label.lastIndexOf(path.sep) + 1))) {
+			label = examplesDirectory.concat([path.basename(label)]).join(path.sep);
+		}
+		return label;
+	}
+
+	// console.log(path.isAbsolute(mis));
+	// console.log(path.basename(mis));
+	// console.log(mis.substring((mis.lastIndexOf(path.sep) + 1)));
+	/* if input is a path to a file, convert path to => CURRENT_DIR\examples\FILE_NAME */
+	if(path.isAbsolute(mis) && path.basename(mis) == mis.substring((mis.lastIndexOf(path.sep) + 1))) {
+		mis = examplesDirectory.concat([path.basename(mis)]).join(path.sep);
 	}
 
 	return mis;
