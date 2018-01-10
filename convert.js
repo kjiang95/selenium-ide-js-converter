@@ -34,4 +34,6 @@ describe(path.basename(__filename), function() {
 })
 `;
 // -----change last parameter to your desired base URL----- 
-seleniumConverter('input_html_tests','output_js_tests', template, 'http://wikipedia.com');
+// seleniumConverter('input_html_tests','output_js_tests', template, 'https://wikipedia.com');
+seleniumConverter('input_html_tests','output_js_tests', template);
+
