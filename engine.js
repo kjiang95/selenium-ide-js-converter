@@ -1,4 +1,4 @@
-module.exports = (htmlPath,jsPath,templateVar,baseUrlVar)=>{
+module.exports = (htmlPath,jsPath,templateVar)=>{
 
 // Load Dependencies
 const fs = require('fs');
@@ -135,32 +135,32 @@ function interpretSelector(selector){
 	let startPos;
 
 	if(selector.indexOf('css=')!==-1){
-		template='By.css("{-body-}")';
+		template='By.css(\'{-body-}\')';
 		startPos=4;
 	}
 
 	if(selector.indexOf('id=')!==-1){
-		template='By.id("{-body-}")';
+		template='By.id(\'{-body-}\')';
 		startPos=3;
 	}
 
 	if(selector.indexOf('//')!==-1){
-		template='By.xpath("{-body-}")';
+		template='By.xpath(\'{-body-}\')';
 		startPos=0;
 	}
 
 	if(selector.indexOf('xpath=')!==-1){
-		template='By.xpath("{-body-}")';
+		template='By.xpath(\'{-body-}\')';
 		startPos=6;
 	}
 
 	if(selector.indexOf('link=')!==-1){
-		template='By.linkText("{-body-}")';
+		template='By.linkText(\'{-body-}\')';
 		startPos=5;
 	}
 
 	if(selector.indexOf('name=')!==-1){
-		template='By.name("{-body-}")';
+		template='By.name(\'{-body-}\')';
 		startPos=5;
 	}
 
@@ -218,6 +218,15 @@ function interpretActions(orderObj){
 }
 
 function insertActions(testHtml){
+
+	preString = '<link rel="selenium.base" href="',
+	searchString = '/" />',
+	preIndex = testHtml.indexOf(preString) + preString.length,
+	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
+	baseUrl = testHtml.slice(preIndex, searchIndex);
+	// console.log(baseUrl);
+
+
 	allOrders=getAllOrder(testHtml);
 	let actions='';
 
@@ -258,13 +267,14 @@ function readFiles(dirnameHtml,dirnameJs,onFileContent) {
 
 
 // Init
-function init(dirnameHtml,dirnameJs,templateVar,baseUrlVar){
+function init(dirnameHtml,dirnameJs,templateVar){
 
 	template = templateVar;
-	baseUrl = baseUrlVar;
+	// baseUrl = baseUrlVar;
 	readFiles(dirnameHtml,dirnameJs,writeFile);
+	
 }
 
-init(`./${htmlPath}/`,`./${jsPath}/`,templateVar,baseUrlVar);
+init(`./${htmlPath}/`,`./${jsPath}/`,templateVar);
 
 }
