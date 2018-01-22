@@ -135,32 +135,32 @@ function interpretSelector(selector){
 	let startPos;
 
 	if(selector.indexOf('css=')!==-1){
-		template='By.css(\'{-body-}\')';
+		template='By.css(\"{-body-}\")';
 		startPos=4;
 	}
 
 	if(selector.indexOf('id=')!==-1){
-		template='By.id(\'{-body-}\')';
+		template='By.id(\"{-body-}\")';
 		startPos=3;
 	}
 
 	if(selector.indexOf('//')!==-1){
-		template='By.xpath(\'{-body-}\')';
+		template='By.xpath(\"{-body-}\")';
 		startPos=0;
 	}
 
 	if(selector.indexOf('xpath=')!==-1){
-		template='By.xpath(\'{-body-}\')';
+		template='By.xpath(\"{-body-}\")';
 		startPos=6;
 	}
 
 	if(selector.indexOf('link=')!==-1){
-		template='By.linkText(\'{-body-}\')';
+		template='By.linkText(\"{-body-}\")';
 		startPos=5;
 	}
 
 	if(selector.indexOf('name=')!==-1){
-		template='By.name(\'{-body-}\')';
+		template='By.name(\"{-body-}\")';
 		startPos=5;
 	}
 
@@ -224,7 +224,7 @@ function insertActions(testHtml){
 	preIndex = testHtml.indexOf(preString) + preString.length,
 	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
 	baseUrl = testHtml.slice(preIndex, searchIndex);
-	// console.log(baseUrl);
+	console.log(baseUrl);
 
 
 	allOrders=getAllOrder(testHtml);
