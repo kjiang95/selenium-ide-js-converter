@@ -2,6 +2,7 @@ module.exports = (htmlPath,jsPath,templateVar)=>{
 
 // Load Dependencies
 const fs = require('fs');
+const path = require('path');
 
 // Load Configs, Template
 const config=require('./config'),
@@ -134,32 +135,32 @@ function interpretSelector(selector){
 	let startPos;
 
 	if(selector.indexOf('css=')!==-1){
-		template='By.css(\'{-body-}\')';
+		template='By.css(\"{-body-}\")';
 		startPos=4;
 	}
 
 	if(selector.indexOf('id=')!==-1){
-		template='By.id(\'{-body-}\')';
+		template='By.id(\"{-body-}\")';
 		startPos=3;
 	}
 
 	if(selector.indexOf('//')!==-1){
-		template='By.xpath(\'{-body-}\')';
+		template='By.xpath(\"{-body-}\")';
 		startPos=0;
 	}
 
 	if(selector.indexOf('xpath=')!==-1){
-		template='By.xpath(\'{-body-}\')';
+		template='By.xpath(\"{-body-}\")';
 		startPos=6;
 	}
 
 	if(selector.indexOf('link=')!==-1){
-		template='By.linkText(\'{-body-}\')';
+		template='By.linkText(\"{-body-}\")';
 		startPos=5;
 	}
 
 	if(selector.indexOf('name=')!==-1){
-		template='By.name(\'{-body-}\')';
+		template='By.name(\"{-body-}\")';
 		startPos=5;
 	}
 
@@ -176,9 +177,30 @@ function interpretSelector(selector){
 	return selector;
 }
 
+// function interpretMis(mis){
+// 	if(mis.indexOf('label=')!==-1){
+// 		return mis.slice(6);
+// 	}
+
+// 	return mis;
+// }
+
 function interpretMis(mis){
+	let examplesDirectory = __dirname.split(path.sep).concat(['examples']);	
 	if(mis.indexOf('label=')!==-1){
-		return mis.slice(6);
+		let label = mis.slice(6);
+		if(path.basename(label) == label.substring((label.lastIndexOf(path.sep) + 1))) {
+			label = examplesDirectory.concat([path.basename(label)]).join(path.sep);
+		}
+		return label;
+	}
+
+	// console.log(path.isAbsolute(mis));
+	// console.log(path.basename(mis));
+	// console.log(mis.substring((mis.lastIndexOf(path.sep) + 1)));
+	/* if input is a path to a file, convert path to => CURRENT_DIR\examples\FILE_NAME */
+	if(path.isAbsolute(mis) && path.basename(mis) == mis.substring((mis.lastIndexOf(path.sep) + 1))) {
+		mis = examplesDirectory.concat([path.basename(mis)]).join(path.sep);
 	}
 
 	return mis;
@@ -202,7 +224,7 @@ function insertActions(testHtml){
 	preIndex = testHtml.indexOf(preString) + preString.length,
 	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
 	baseUrl = testHtml.slice(preIndex, searchIndex);
-	// console.log(baseUrl);
+	console.log(baseUrl);
 
 
 	allOrders=getAllOrder(testHtml);
