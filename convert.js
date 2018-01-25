@@ -12,7 +12,7 @@ until = webdriver.until;
 
 describe(path.basename(__filename), function() {
   // --enter test case name (ie. 'example test case')
-  test.it('example test case', function(done) {
+  test.it('{-name-}', function(done) {
     this.timeout(0);
     var driver = new webdriver.Builder()
     .forBrowser('firefox')

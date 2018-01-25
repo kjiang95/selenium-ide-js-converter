@@ -217,8 +217,8 @@ function interpretActions(orderObj){
 	return action
 }
 
-function insertActions(testHtml){
-
+function insertActions(testHtml, filename){
+	// detect base URL from .html file
 	preString = '<link rel="selenium.base" href="',
 	searchString = '/" />',
 	preIndex = testHtml.indexOf(preString) + preString.length,
@@ -234,15 +234,27 @@ function insertActions(testHtml){
 		textOrder=interpretActions(order)+'\n		';
 		actions+=textOrder;
 	})
+	
+	// detect test case name from .html file
+	// preString2 = '<title>',
+	// searchString2 = '</title>',
+	// preIndex2 = testHtml.indexOf(preString2) + preString2.length,
+	// searchIndex2 = preIndex2 + testHtml.substring(preIndex2).indexOf(searchString2);
+	// let name = testHtml.slice(preIndex2, searchIndex2);
+	console.log(filename);
 
 	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-actions-}' in template argument for order injection`;
-
-	return template.replace('{-actions-}',actions);
+	tempTemplate = template.replace('{-actions-}', actions);
+	// name test case => filename
+	if (template.indexOf('{-name-}') === -1) throw `ERROR: there should be '{-name-}' in template argument for name injection`;
+	processedTemplate = tempTemplate.replace('{-name-}', filename);
+	return processedTemplate;
 }
+
 
 function writeFile(dirnameJs,filename,testHtml){
 	fs.access(dirnameJs+filename+'.js', fs.constants.R_OK | fs.constants.W_OK, (err2) => {
-		fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml),err=>{
+		fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml, filename),err=>{
 			if (err) throw err;
 			if (err) throw err2;			
 			console.log(err2 ? 'New file generated:' : 'File already exists! Existing file will be overwritten:');			
