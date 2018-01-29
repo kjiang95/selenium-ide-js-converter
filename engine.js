@@ -224,8 +224,7 @@ function insertActions(testHtml, filename){
 	preIndex = testHtml.indexOf(preString) + preString.length,
 	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
 	baseUrl = testHtml.slice(preIndex, searchIndex);
-	console.log(baseUrl);
-
+	// console.log(baseUrl);
 
 	allOrders=getAllOrder(testHtml);
 	let actions='';
@@ -234,14 +233,6 @@ function insertActions(testHtml, filename){
 		textOrder=interpretActions(order)+'\n		';
 		actions+=textOrder;
 	})
-	
-	// detect test case name from .html file
-	// preString2 = '<title>',
-	// searchString2 = '</title>',
-	// preIndex2 = testHtml.indexOf(preString2) + preString2.length,
-	// searchIndex2 = preIndex2 + testHtml.substring(preIndex2).indexOf(searchString2);
-	// let name = testHtml.slice(preIndex2, searchIndex2);
-	console.log(filename);
 
 	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-actions-}' in template argument for order injection`;
 	tempTemplate = template.replace('{-actions-}', actions);
