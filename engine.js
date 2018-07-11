@@ -97,7 +97,7 @@ function interpretOrder(order){
 	// use {-selector-},{-mis-}
 	let findElementOrder=`driver.findElement({-selector-})`;
 	let mappingOrder={
-		'open':`driver.get("${baseUrl}"+"{-selector-}");`,
+		'open':`driver.get("${baseUrl} + "{-selector-}");`,
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
@@ -220,7 +220,7 @@ function interpretActions(orderObj){
 function insertActions(testHtml, filename){
 	// detect base URL from .html file
 	preString = '<link rel="selenium.base" href="',
-	searchString = '/" />',
+	searchString = '/>',
 	preIndex = testHtml.indexOf(preString) + preString.length,
 	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
 	baseUrl = testHtml.slice(preIndex, searchIndex);
