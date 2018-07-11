@@ -94,32 +94,32 @@ function interpretOrder(order){
 	// Check baseUrl
 	if (baseUrl.length===0) throw `ERROR: You should indicate base url`;
 
-	// use {-selector-},{-mis-}
-	let findElementOrder=`driver.findElement({-selector-})`;
+	// use {-target-},{-value-}
+	let findElementOrder=`driver.findElement({-target-})`;
 	let mappingOrder={
-		'open':`driver.get("${baseUrl} + "{-selector-}");`,
+		'open':`driver.get("${baseUrl} + "{-target-}");`,
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
-		'waitForElementPresent':`driver.wait(until.elementLocated({-selector-}),${waitTime});`,
-		'waitForTitle':`driver.wait(until.titleIs({-selector-})),${waitTime});`,
+		'waitForElementPresent':`driver.wait(until.elementLocated({-target-}),${waitTime});`,
+		'waitForTitle':`driver.wait(until.titleIs({-target-})),${waitTime});`,
 
-		'type':`${findElementOrder}.sendKeys('{-mis-}');`,
-		'typeAndWait':`${findElementOrder}.sendKeys('{-mis-}');`,
+		'type':`${findElementOrder}.sendKeys('{-value-}');`,
+		'typeAndWait':`${findElementOrder}.sendKeys('{-value-}');`,
 
-		'select':`${findElementOrder}.sendKeys('{-mis-}');`,
+		'select':`${findElementOrder}.sendKeys('{-value-}');`,
 
 		'assertText':`${findElementOrder}.getText().then(text=> {
-			assert(text == '{-mis-}');
+			assert(text == '{-value-}');
 			done();
 		});`,
 
 		'assertTitle':`driver.getTitle().then(title=> {
-			assert(title == '{-selector-}');
+			assert(title == '{-target-}');
 			done();
 		});`,
 
-		'pause':`driver.sleep('{-selector-}');`
+		'pause':`driver.sleep('{-target-}');`
 		
 	}
 
@@ -135,32 +135,32 @@ function interpretSelector(selector){
 	let startPos;
 
 	if(selector.indexOf('css=')!==-1){
-		template='By.css(\"{-body-}\")';
+		template='By.css(`{-body-}`)';
 		startPos=4;
 	}
 
 	if(selector.indexOf('id=')!==-1){
-		template='By.id(\"{-body-}\")';
+		template='By.id(`{-body-}`)';
 		startPos=3;
 	}
 
 	if(selector.indexOf('//')!==-1){
-		template='By.xpath(\"{-body-}\")';
+		template='By.xpath(`{-body-}`)';
 		startPos=0;
 	}
 
 	if(selector.indexOf('xpath=')!==-1){
-		template='By.xpath(\"{-body-}\")';
+		template='By.xpath(`{-body-}`)';
 		startPos=6;
 	}
 
 	if(selector.indexOf('link=')!==-1){
-		template='By.linkText(\"{-body-}\")';
+		template='By.linkText(`{-body-}`)';
 		startPos=5;
 	}
 
 	if(selector.indexOf('name=')!==-1){
-		template='By.name(\"{-body-}\")';
+		template='By.name(`{-body-}`)';
 		startPos=5;
 	}
 
@@ -211,8 +211,8 @@ function interpretActions(orderObj){
 	let action;
 
 	action=interpretOrder(order);
-	action=action.replace('{-selector-}',interpretSelector(selector));
-	action=action.replace('{-mis-}',interpretMis(mis));
+	action=action.replace('{-target-}',interpretSelector(selector));
+	action=action.replace('{-value-}',interpretMis(mis));
 
 	return action
 }
