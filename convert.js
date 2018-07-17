@@ -10,8 +10,37 @@ const webdriver = require('selenium-webdriver'),
 By = webdriver.By,
 until = webdriver.until;
 
-describe(path.basename(__filename), function() {
-  // --enter test case name (ie. 'example test case')
+describe('Test Suite 1 - ' + path.basename(__filename), function() {
+  // default: {filename} - Test Suite 1
+
+  test.before(function(){
+        
+    // do something before test suite execution
+    // no matter if there are failed cases
+
+  });
+
+  test.after(function(){
+
+    // do something after test suite execution is finished
+    // no matter if there are failed cases
+
+  });
+
+  test.beforeEach(function(){
+    
+    // do something before test case execution
+    // no matter if there are failed cases
+
+  });
+
+  test.afterEach(function(){
+
+    // do something after test case execution is finished
+    // no matter if there are failed cases
+
+  });
+
   test.it('{-name-}', function(done) {
     this.timeout(0);
     var driver = new webdriver.Builder()
@@ -31,6 +60,21 @@ describe(path.basename(__filename), function() {
 
     driver.close();
   });
+
+  // test.it("Test-2", function(done){
+ 
+  //   // test Code
+  //   // assertions
+    
+  // });
+
+  // test.it("Test-3", function(done){
+
+  //     // test Code
+  //     // assertions
+
+  // });
+
 })
 `;
 seleniumConverter('input_html_tests','output_js_tests', template);

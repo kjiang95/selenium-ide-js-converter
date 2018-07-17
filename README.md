@@ -1,5 +1,5 @@
 # Selenium IDE JS Converter
-Tool to convert html test files generated from Selenium IDE into runnable node.js test files (via Firefox webdriver).
+Tool to convert html test files generated from Selenium IDE or Kantu Browser into runnable Node.JS test files (via Firefox webdriver).
 
 # Dependencies 
 ```
@@ -12,10 +12,11 @@ geckodriver.exe
 ```
 1) Clone repo 'https://github.com/kvnjng/selenium-ide-js-converter.git'
 2) Open console in folder and type 'npm i'
-3) Download 'geckodriver' version v0.18.0 (32-bit) and place in main directory: (https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-win32.zip)
+3) Download a version of 'geckodriver' that is compatible with your Firefox browser version and place in main directory (ie. geckodriver v0.18.0 (32-bit) with Firefox v52.8.1 (32-bit): (https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-win32.zip)
 4) Place your Selenium-generated html test cases in the 'input_html_tests' folder
 5) Type 'node convert.js' to convert all test cases placed in 'input_html_tests' folder. Converted tests will be placed in 'output_js_tests' folder
 6) Type 'npm test' to run all javascript test cases in the 'output_js_tests' folder
+7) To export test results to another file, change the 'test' value under 'scripts:' to 'mocha output_js_tests/ --reporter xunit --reporter-options output=output_js_tests/e2e_results.xml' in 'package.json'
 ```
 
 #### Supported commands:
