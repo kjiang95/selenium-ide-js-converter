@@ -23,6 +23,7 @@
     "ide"
   ],
   "devDependencies": {
+    "@types/selenium-webdriver": "^3.0.10",
     "mocha": "^3.5.0",
     "selenium-webdriver": "^3.6.0"
   }
