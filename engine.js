@@ -97,7 +97,7 @@ function interpretOrder(order){
 	// use {-target-},{-value-}
 	let findElementOrder=`driver.findElement({-target-})`;
 	let mappingOrder={
-		'open':`driver.get("${baseUrl} + "{-target-}");`,
+		'open':`driver.get("${baseUrl}" + "{-target-}");`,
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
@@ -220,11 +220,14 @@ function interpretActions(orderObj){
 function insertActions(testHtml, filename){
 	// detect base URL from .html file
 	preString = '<link rel="selenium.base" href="',
-	searchString = '/>',
+	searchString = '" />',
 	preIndex = testHtml.indexOf(preString) + preString.length,
 	searchIndex = preIndex + testHtml.substring(preIndex).indexOf(searchString);
-	baseUrl = testHtml.slice(preIndex, searchIndex);
-	// console.log(baseUrl);
+	baseUrl = testHtml.slice(preIndex, searchIndex).trim();
+	// trim off spaces and slash if there is one
+	if (baseUrl[baseUrl.length - 1] == '\/' ) {
+		baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+	}
 
 	allOrders=getAllOrder(testHtml);
 	let actions='';
