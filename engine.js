@@ -49,12 +49,11 @@ function elementExtractorOrder(tag,doc){
 }
 
 
-
 function getAllOrder(doc){
 	let allOrder = [];
 
 	let tables = elementExtractor('tbody',doc);
-
+	
 	// Error handle---------------------------
 	if (tables.length!==1) throw `ERROR: only one <tbody> element accept`;
 
@@ -64,7 +63,9 @@ function getAllOrder(doc){
 		if (tableEach.length===0) throw `ERROR: need at least one command (<tr> element)`;
 
 			tableEach.forEach(trs=>{
-				trsEach=elementExtractorOrder('td',trs)
+				// console.log(trs);
+				trsEach=elementExtractorOrder('td',trs);
+				// console.log(trsEach);
 				allOrder.push(trsEach);
 			})
 	})
@@ -230,9 +231,11 @@ function insertActions(testHtml, filename){
 	}
 
 	allOrders=getAllOrder(testHtml);
+	// console.log(allOrders);
 	let actions='';
 
 	allOrders.forEach(order=>{
+		// console.log(order);
 		textOrder=interpretActions(order)+'\n		';
 		actions+=textOrder;
 	})
@@ -245,15 +248,80 @@ function insertActions(testHtml, filename){
 	return processedTemplate;
 }
 
+function isJSON(str){
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function elementExtractorOrderJSON(docJSON){
+	// docJSON = JSON.parse(doc);
+
+	let orderObject={
+		order:docJSON.command,
+		selector:docJSON.target,
+		mis:docJSON.value
+	};
+
+	return orderObject;
+}
+
+function insertActionsJSON(obj, filename){
+	baseUrl = obj.url;
+	// console.log(obj.tests[0].name);
+	rawCommands = obj.tests[0].commands;
+	// console.log(rawCommands);
+	if (rawCommands.length == 0) throw `ERROR: need at least one command`;
+
+	let allOrders = [];
+	rawCommands.forEach(order=>{
+		// console.log(order);
+		allOrders.push(elementExtractorOrderJSON(order));
+	});
+	// console.log(allOrders);
+	let actions='';
+
+	allOrders.forEach(order=>{
+		// console.log(order);
+		textOrder=interpretActions(order)+'\n		';
+		actions+=textOrder;
+	})
+
+	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-actions-}' in template argument for order injection`;
+	tempTemplate = template.replace('{-actions-}', actions);
+	// name test case => filename
+	if (template.indexOf('{-name-}') === -1) throw `ERROR: there should be '{-name-}' in template argument for name injection`;
+	processedTemplate = tempTemplate.replace('{-name-}', filename);
+	return processedTemplate;
+}
 
 function writeFile(dirnameJs,filename,testHtml){
 	fs.access(dirnameJs+filename+'.js', fs.constants.R_OK | fs.constants.W_OK, (err2) => {
-		fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml, filename),err=>{
-			if (err) throw err;
-			if (err) throw err2;			
-			console.log(err2 ? 'New file generated:' : 'File already exists! Existing file will be overwritten:');			
-			console.log(' '+dirnameJs+filename+'.js');
-		})
+		// check if testHTML is a json
+		if (isJSON(testHtml)) {
+			console.log("Input file: " + filename);
+			console.log("File is in JSON.");
+			var obj = JSON.parse(testHtml);
+			// console.log(obj);
+			fs.writeFile(dirnameJs+filename+'.js', insertActionsJSON(obj, filename), err=> {
+				if (err) throw err;
+				if (err) throw err2;			
+				console.log(err2 ? 'New file generated:' : 'File already exists! Existing file will be overwritten:');			
+				console.log(' '+dirnameJs+filename+'.js');
+			});
+		} else {
+			console.log("Input file: " + filename);
+			console.log("File is in HTML.");
+			fs.writeFile(dirnameJs+filename+'.js', insertActions(testHtml, filename), err=> {
+				if (err) throw err;
+				if (err) throw err2;			
+				console.log(err2 ? 'New file generated:' : 'File already exists! Existing file will be overwritten:');			
+				console.log(' '+dirnameJs+filename+'.js');
+			});
+		}
 	});
 }
 
@@ -264,7 +332,8 @@ function readFiles(dirnameHtml,dirnameJs,onFileContent) {
     filenames.forEach(filename=>{
       fs.readFile(dirnameHtml + filename, 'utf-8',(err, testHtml)=>{
 		if (err) throw err;
-		filename = filename.replace(/\.html/g, "");		
+		filename = filename.replace(/\.html/g, "");
+		filename = filename.replace(/\.side/g, "");		
         onFileContent(dirnameJs,filename,testHtml);
       });
     });
