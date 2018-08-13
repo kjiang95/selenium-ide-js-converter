@@ -100,6 +100,7 @@ function interpretOrder(order){
 	let mappingOrder={
 		'open':`driver.get("${baseUrl}" + "{-target-}");`,
 		'click':`${findElementOrder}.click();`,
+		'clickAt':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
 		'waitForElementPresent':`driver.wait(until.elementLocated({-target-}),${waitTime});`,
@@ -202,6 +203,8 @@ function interpretMis(mis){
 	/* if input is a path to a file, convert path to => CURRENT_DIR\examples\FILE_NAME */
 	if(path.isAbsolute(mis) && path.basename(mis) == mis.substring((mis.lastIndexOf(path.sep) + 1))) {
 		mis = examplesDirectory.concat([path.basename(mis)]).join(path.sep);
+		mis = mis.replace(/\\/g, "\\\\");
+		// console.log(mis);
 	}
 
 	return mis;
