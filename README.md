@@ -5,7 +5,8 @@ Tool to convert html test files generated from Selenium IDE or Kantu Browser int
 ```
 selenium-webdriver
 mocha
-geckodriver.exe
+geckodriver
+chromedriver
 ```
 
 # Installation
