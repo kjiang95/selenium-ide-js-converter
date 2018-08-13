@@ -77,5 +77,5 @@ describe('Test Suite 1 - ' + path.basename(__filename), function() {
 
 })
 `;
-seleniumConverter('input_html_tests','output_js_tests', template);
+seleniumConverter('input','output_js_tests', template);
 
